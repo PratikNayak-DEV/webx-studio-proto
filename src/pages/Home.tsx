@@ -43,7 +43,7 @@ const Home = () => {
             <Link
               to="/editor"
               aria-label="Get started with WebX"
-              className="inline-flex items-center justify-center px-8 py-3 text-base font-medium bg-accent text-accent-foreground hover:opacity-90 rounded-md focus:outline-none focus:ring-2 focus:ring-accent focus:ring-offset-2"
+              className="inline-flex items-center justify-center px-8 py-3 text-base font-medium bg-accent text-accent-foreground hover:opacity-90 rounded-xl focus:outline-none focus:ring-2 focus:ring-accent focus:ring-offset-2"
             >
               Get Started
             </Link>
