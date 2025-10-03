@@ -1,5 +1,11 @@
-import { FileCode, FileText, Plus, ChevronDown, ChevronRight } from "lucide-react";
+import { FileCode, FileText, Plus, ChevronDown, ChevronRight, Pencil, Trash2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import {
+  ContextMenu,
+  ContextMenuContent,
+  ContextMenuItem,
+  ContextMenuTrigger,
+} from "@/components/ui/context-menu";
 import { useState } from "react";
 
 interface FileItem {
@@ -109,19 +115,46 @@ const FileExplorer = ({
             <div className="ml-4 space-y-1">
               {/* Commented ID for dev wiring: #file-tree */}
               {files.map((file) => (
-                <button
-                  key={file.name}
-                  className={`flex items-center gap-2 text-sm w-full px-2 py-1.5 rounded hover:bg-sidebar-accent ${
-                    file.active ? "bg-sidebar-accent" : ""
-                  }`}
-                  title="Double-click to rename"
-                >
-                  {getFileIcon(file.type)}
-                  <span className="truncate">{file.name}</span>
-                  {file.active && (
-                    <span className="ml-auto text-xs text-muted-foreground">•</span>
-                  )}
-                </button>
+                <ContextMenu key={file.name}>
+                  <ContextMenuTrigger asChild>
+                    <button
+                      className={`flex items-center gap-2 text-sm w-full px-2 py-1.5 rounded hover:bg-sidebar-accent ${
+                        file.active ? "bg-sidebar-accent" : ""
+                      }`}
+                    >
+                      {getFileIcon(file.type)}
+                      <span className="truncate">{file.name}</span>
+                      {file.active && (
+                        <span className="ml-auto text-xs text-muted-foreground">•</span>
+                      )}
+                    </button>
+                  </ContextMenuTrigger>
+                  <ContextMenuContent className="w-48">
+                    <ContextMenuItem 
+                      className="gap-2"
+                      onClick={() => {
+                        const newName = prompt("Enter new name:", file.name);
+                        if (newName) {
+                          console.log(`Rename ${file.name} to ${newName}`);
+                        }
+                      }}
+                    >
+                      <Pencil className="w-4 h-4" />
+                      <span>Rename</span>
+                    </ContextMenuItem>
+                    <ContextMenuItem 
+                      className="gap-2 text-destructive focus:text-destructive"
+                      onClick={() => {
+                        if (confirm(`Delete ${file.name}?`)) {
+                          console.log(`Delete ${file.name}`);
+                        }
+                      }}
+                    >
+                      <Trash2 className="w-4 h-4" />
+                      <span>Delete</span>
+                    </ContextMenuItem>
+                  </ContextMenuContent>
+                </ContextMenu>
               ))}
             </div>
           )}
